@@ -5,7 +5,10 @@ part 'network_helper.g.dart';
 
 const defaultIceServer = {
   'iceServers': [
-    {'url': 'stun:stun.l.google.com:19302'},
+    {'urls': [
+          'stun:stun1.l.google.com:19302',
+          'stun:stun2.l.google.com:19302',
+        ],},
     /*
        * turn server configuration example.
       {

@@ -23,6 +23,7 @@ class SignalerSocket {
   SignalerSocket({
     required AppConfig config,
     required String selfId,
+    required String name,
     required bool isServer,
     required String type,
     required Map<String, dynamic> gameConfig,
@@ -49,7 +50,7 @@ class SignalerSocket {
     channel.sink.add(
       jsonEncode(ToWebsocketPacket(
         ToWebsocketPacketType.hello,
-        ServerHelloPacket(isServer, type, selfId, gameConfig).toJson(),
+        ServerHelloPacket(isServer, type, selfId, name, gameConfig).toJson(),
       ).toJson()),
     );
 

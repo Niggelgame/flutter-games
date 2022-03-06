@@ -8,7 +8,9 @@ import 'package:games/games/uno/game/config.dart';
 import 'package:games/games/uno/game/player_event.dart';
 import 'package:games/games/uno/game/server_event.dart';
 import 'package:games/games/uno/game/uno_game.dart';
+import 'package:games/games/uno/presentation/screens/uno_game_page.dart';
 import 'package:games/routing/app_router.dart';
+import 'package:games/utils/name_generator.dart';
 
 class UnoHomePage extends StatefulWidget {
   const UnoHomePage({Key? key}) : super(key: key);
@@ -21,10 +23,12 @@ class _UnoHomePageState extends State<UnoHomePage> {
   bool host = false;
 
   late final TextEditingController _sessionCodeInputController;
+  late final TextEditingController _nameInputController;
 
   @override
   void initState() {
     _sessionCodeInputController = TextEditingController();
+    _nameInputController = TextEditingController();
     super.initState();
   }
 
@@ -82,8 +86,8 @@ class _UnoHomePageState extends State<UnoHomePage> {
 
                     final gameClient = GameClientLocal<UnoPlayerEvent, UnoServerEvent, UnoGame>((json) => UnoGame(gameConfig: UnoGameConfig.fromJson(json)));
 
-                    gameServer.sessionHandler.addSession(gameClient.sessionHandler, true);
-                    context.router.push(UnoHostGameRoute(gameServer: gameServer, gameClient: gameClient));
+                    gameServer.sessionHandler.addSession(gameClient.sessionHandler, 'Host', true);
+                    context.router.pushWidget(UnoHostGamePage(gameServer: gameServer, gameClient: gameClient));
                   },
                   style: ButtonStyle(
                     backgroundColor: MaterialStateColor.resolveWith(
@@ -102,9 +106,20 @@ class _UnoHomePageState extends State<UnoHomePage> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                SizedBox(
+                  height: 60,
+                  child: TextField(
+                    controller: _nameInputController,
+                    decoration: const InputDecoration(
+                      labelText: 'Your Name',
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   child: const Text('Join Game'),
                   onPressed: () {
+                    final usedName = _nameInputController.text.isEmpty ? NameGenerator.generate() : _nameInputController.text;
                     context.router.push(UnoJoinGameRoute(
                       sessionCode: _sessionCodeInputController.text,
                       gameClient: GameClientNetwork<UnoPlayerEvent,
@@ -112,7 +127,8 @@ class _UnoHomePageState extends State<UnoHomePage> {
                           (json) =>
                               UnoGame(gameConfig: UnoGameConfig.fromJson(json)),
                           defaultConfig,
-                          _sessionCodeInputController.text),
+                          _sessionCodeInputController.text,
+                          usedName),
                     ));
                   },
                   style: ButtonStyle(

@@ -39,8 +39,9 @@ class SessionHandler<
       config: _appConfig,
       type: server.game.name,
       selfId: _selfId,
+      name: 'Host',
       onInvite: (invite) {
-        _createNewNetworkSession(invite.peerId);
+        _createNewNetworkSession(invite.peerId, invite.name);
       },
       onInit: (init) {
         onSessionCode(init.sessionCode);
@@ -116,9 +117,9 @@ class SessionHandler<
     _sessions.remove(p.id);
   }
 
-  addSession(SingleSessionHandler<PlayerGameEvent, ServerGameEvent> session, bool isAdmin) {
+  addSession(SingleSessionHandler<PlayerGameEvent, ServerGameEvent> session, String peerName, bool isAdmin) {
     _sessions[session.sessionId] = session;
-    final p = Player<PlayerGameEvent, ServerGameEvent, G>(session, server, isAdmin);
+    final p = Player<PlayerGameEvent, ServerGameEvent, G>(session, server, peerName, isAdmin);
     server.onJoin(p);
   }
 
@@ -130,7 +131,7 @@ class SessionHandler<
     socket.close();
   }
 
-  _createNewNetworkSession(String peerId) {
+  _createNewNetworkSession(String peerId, String peerName) {
     // TODO: get real ice servers
     final session =
         SingleNetworkSessionHandler<PlayerGameEvent, ServerGameEvent>(
@@ -157,6 +158,6 @@ class SessionHandler<
 
     sessionCounter++;
 
-    addSession(session, false);
+    addSession(session, peerName, false);
   }
 }

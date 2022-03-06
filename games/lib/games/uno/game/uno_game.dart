@@ -35,7 +35,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
   @override
   void onPlayerJoined(Player player) {
     super.onPlayerJoined(player);
-    gameState.players[player.id] = GamePlayerState([]);
+    gameState.players[player.id] = GamePlayerState([], player.name);
     broadcastWithPlayerState(
         (state, _) => UnoServerEvent.playerJoined(player.id, state));
   }
@@ -158,7 +158,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
         for (var p in players) {
           fillDeck(gameConfig.startHandLength);
           final cards = gameState.stack.draw(gameConfig.startHandLength);
-          gameState.players[p.id] = GamePlayerState(cards);
+          gameState.players[p.id] = GamePlayerState(cards, p.name);
         }
 
         // lay down top card
@@ -295,7 +295,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
 
           currentPlayer.hand.remove(card);
           gameState =
-              gameState.copyWith(cardsPutDown: gameState.cardsPutDown + [card]);
+              gameState.copyWith(cardsPutDown: gameState.cardsPutDown + [card], currentColor: card.color);
 
           broadcastWithPlayerState(
               (state, id) => UnoServerEvent.cardPlayed(player.id, card, state));

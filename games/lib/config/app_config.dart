@@ -18,7 +18,7 @@ class AppConfig {
 }
 
 final defaultConfig = AppConfig(
-  secureTraffic: true,
+  secureTraffic: false,
   apiHost: 'localhost',
   apiPort: 8080,
   websocketPath: '/ws',

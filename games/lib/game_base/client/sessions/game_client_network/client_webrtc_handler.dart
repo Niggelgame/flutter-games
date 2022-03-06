@@ -10,7 +10,7 @@ import 'package:games/game_base/helper/serializable.dart';
 class ClientWebRTCHandler<PlayerGameEvent extends Serializable,
     ServerGameEvent extends Serializable> {
   final ServerGameEvent Function(Map<String, dynamic>) serverGameEventFromMap;
-  final Map<String, List<Map<String, String>>> iceServers;
+  final Map<String, dynamic> iceServers;
   final VoidCallback channelConnected;
   final ValueChanged<SessionCandidate> onCandidate;
   final ValueChanged<OfferAnswerPacket> onAnswer;

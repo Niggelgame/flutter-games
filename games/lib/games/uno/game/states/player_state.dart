@@ -12,6 +12,7 @@ class PlayerState with _$PlayerState {
   factory PlayerState(
     SimpleGameState gameState,
     String playersTurnId,
+    String name,
     List<UnoCard> hand,
     List<OtherPlayerState> otherPlayers,
     UnoCard? lastPlayedCard,
@@ -27,7 +28,7 @@ class PlayerState with _$PlayerState {
 
 @freezed
 class OtherPlayerState with _$OtherPlayerState {
-  factory OtherPlayerState(String playerId, int handLength) = _OtherPlayerState;
+  factory OtherPlayerState(String playerId, String name, int handLength) = _OtherPlayerState;
 
   factory OtherPlayerState.fromJson(Map<String, dynamic> json) =>
       _$OtherPlayerStateFromJson(json);

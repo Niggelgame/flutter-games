@@ -18,9 +18,10 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$GamePlayerStateTearOff {
   const _$GamePlayerStateTearOff();
 
-  _GamePlayerState call(List<UnoCard> hand) {
+  _GamePlayerState call(List<UnoCard> hand, String name) {
     return _GamePlayerState(
       hand,
+      name,
     );
   }
 }
@@ -31,6 +32,7 @@ const $GamePlayerState = _$GamePlayerStateTearOff();
 /// @nodoc
 mixin _$GamePlayerState {
   List<UnoCard> get hand => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $GamePlayerStateCopyWith<GamePlayerState> get copyWith =>
@@ -42,7 +44,7 @@ abstract class $GamePlayerStateCopyWith<$Res> {
   factory $GamePlayerStateCopyWith(
           GamePlayerState value, $Res Function(GamePlayerState) then) =
       _$GamePlayerStateCopyWithImpl<$Res>;
-  $Res call({List<UnoCard> hand});
+  $Res call({List<UnoCard> hand, String name});
 }
 
 /// @nodoc
@@ -57,12 +59,17 @@ class _$GamePlayerStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? hand = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       hand: hand == freezed
           ? _value.hand
           : hand // ignore: cast_nullable_to_non_nullable
               as List<UnoCard>,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -74,7 +81,7 @@ abstract class _$GamePlayerStateCopyWith<$Res>
           _GamePlayerState value, $Res Function(_GamePlayerState) then) =
       __$GamePlayerStateCopyWithImpl<$Res>;
   @override
-  $Res call({List<UnoCard> hand});
+  $Res call({List<UnoCard> hand, String name});
 }
 
 /// @nodoc
@@ -91,12 +98,17 @@ class __$GamePlayerStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? hand = freezed,
+    Object? name = freezed,
   }) {
     return _then(_GamePlayerState(
       hand == freezed
           ? _value.hand
           : hand // ignore: cast_nullable_to_non_nullable
               as List<UnoCard>,
+      name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -106,14 +118,16 @@ class __$GamePlayerStateCopyWithImpl<$Res>
 class _$_GamePlayerState
     with DiagnosticableTreeMixin
     implements _GamePlayerState {
-  _$_GamePlayerState(this.hand);
+  _$_GamePlayerState(this.hand, this.name);
 
   @override
   final List<UnoCard> hand;
+  @override
+  final String name;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'GamePlayerState(hand: $hand)';
+    return 'GamePlayerState(hand: $hand, name: $name)';
   }
 
   @override
@@ -121,7 +135,8 @@ class _$_GamePlayerState
     super.debugFillProperties(properties);
     properties
       ..add(DiagnosticsProperty('type', 'GamePlayerState'))
-      ..add(DiagnosticsProperty('hand', hand));
+      ..add(DiagnosticsProperty('hand', hand))
+      ..add(DiagnosticsProperty('name', name));
   }
 
   @override
@@ -129,12 +144,15 @@ class _$_GamePlayerState
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _GamePlayerState &&
-            const DeepCollectionEquality().equals(other.hand, hand));
+            const DeepCollectionEquality().equals(other.hand, hand) &&
+            const DeepCollectionEquality().equals(other.name, name));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(hand));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(hand),
+      const DeepCollectionEquality().hash(name));
 
   @JsonKey(ignore: true)
   @override
@@ -143,10 +161,13 @@ class _$_GamePlayerState
 }
 
 abstract class _GamePlayerState implements GamePlayerState {
-  factory _GamePlayerState(List<UnoCard> hand) = _$_GamePlayerState;
+  factory _GamePlayerState(List<UnoCard> hand, String name) =
+      _$_GamePlayerState;
 
   @override
   List<UnoCard> get hand;
+  @override
+  String get name;
   @override
   @JsonKey(ignore: true)
   _$GamePlayerStateCopyWith<_GamePlayerState> get copyWith =>

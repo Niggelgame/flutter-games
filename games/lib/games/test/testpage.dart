@@ -31,7 +31,7 @@ class _TestServerPageState extends State<TestServerPage> {
 
     final localClient = GameClientLocal<TestGameEvent, TestGameEvent, TestGame>(
         (_) => TestGame());
-    server!.sessionHandler.addSession(localClient.sessionHandler, true);
+    server!.sessionHandler.addSession(localClient.sessionHandler, 'Host', true);
     client = localClient;
     client!.eventStream.listen((event) {
       setState(() {
@@ -113,7 +113,7 @@ class _TestNetworkClientPageState extends State<TestNetworkClientPage> {
                       GameClientNetwork<TestGameEvent, TestGameEvent, TestGame>(
                           (_) => TestGame(),
                           defaultConfig,
-                          sessionCodeController.text);
+                          sessionCodeController.text, 'user');
 
                   client!.eventStream.listen((event) {
                     setState(() {

@@ -12,7 +12,7 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 class SingleNetworkSessionHandler<PlayerGameEvent extends Serializable,
         ServerGameEvent extends Serializable>
     extends SingleSessionHandler<PlayerGameEvent, ServerGameEvent> {
-  final Map<String, List<Map<String, String>>> _iceServers;
+  final Map<String, dynamic> _iceServers;
   final VoidCallback channelConnected;
   final ValueChanged<SessionCandidate> onCandidate;
   final ValueChanged<OfferAnswerPacket> onOffer;

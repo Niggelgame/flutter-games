@@ -7,7 +7,7 @@ part 'games_state.freezed.dart';
 
 @freezed
 class GamePlayerState with _$GamePlayerState {
-  factory GamePlayerState(List<UnoCard> hand) = _GamePlayerState;
+  factory GamePlayerState(List<UnoCard> hand, String name) = _GamePlayerState;
 }
 
 enum SimpleGameState {
@@ -45,13 +45,14 @@ extension GameStateX on GameState {
     final player = players[playerId]!;
     final otherPlayers = players
         .map((key, value) =>
-            MapEntry(key, OtherPlayerState(key, value.hand.length)))
+            MapEntry(key, OtherPlayerState(key, value.name, value.hand.length)))
         .values
         .where((value) => value.playerId != playerId)
         .toList();
     return PlayerState(
         state,
         currentPlayer,
+        player.name,
         player.hand,
         otherPlayers,
         cardsPutDown.lastOrNull,

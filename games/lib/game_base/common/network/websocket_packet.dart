@@ -55,8 +55,9 @@ class ToWebsocketPacket {
 class InvitePacket {
   @JsonKey(name: 'peer_id')
   final String peerId;
+  final String name;
 
-  InvitePacket(this.peerId);
+  InvitePacket(this.peerId, this.name);
 
   factory InvitePacket.fromJson(Map<String, dynamic> json) =>
       _$InvitePacketFromJson(json);
@@ -85,10 +86,11 @@ class ServerHelloPacket {
   final String game;
   @JsonKey(name: 'id')
   final String selfId;
+  final String name;
   @JsonKey(name: 'game_config')
   final Map<String, dynamic> gameConfig;
 
-  ServerHelloPacket(this.isServer, this.game, this.selfId, this.gameConfig);
+  ServerHelloPacket(this.isServer, this.game, this.selfId, this.name, this.gameConfig);
 
   factory ServerHelloPacket.fromJson(Map<String, dynamic> json) =>
       _$ServerHelloPacketFromJson(json);

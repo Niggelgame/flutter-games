@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:games/game_base/client/game_client.dart';
+import 'package:games/game_base/server/game_server.dart';
 import 'package:games/games/uno/game/player_event.dart';
 import 'package:games/games/uno/game/server_event.dart';
 import 'package:games/games/uno/game/states/player_state.dart';
@@ -14,13 +15,34 @@ class UnoRepository {
   late final StreamController<String> _errorMessageController;
   late final StreamController<String> _messageController;
 
+  late final StreamController<String> _gameCodeController;
+  String? _lastGameCode;
+  String? get lastGameCode => _lastGameCode;
+
   PlayerState? _lastPlayerState;
+
+  PlayerState? get lastPlayerState => _lastPlayerState;
 
   String _selfId = '';
 
   String get selfId => _selfId;
 
-  UnoRepository(this._gameClient) {
+  UnoRepository(this._gameClient,
+      {GameServer<UnoPlayerEvent, UnoServerEvent, UnoGame>? gameServer}) {
+    _gameCodeController = StreamController<String>.broadcast();
+    if (gameServer != null) {
+      if(gameServer.gameCode != null) {
+        _lastGameCode = gameServer.gameCode;
+        _gameCodeController.add(_lastGameCode!);
+      }
+      gameServer.addListener(() {
+        if (gameServer.gameCode != null) {
+          _lastGameCode = gameServer.gameCode;
+          _gameCodeController.add(gameServer.gameCode!);
+        }
+      });
+    }
+
     _selfId = _gameClient.selfId;
 
     _playerStateController = StreamController<PlayerState>.broadcast();
@@ -28,7 +50,7 @@ class UnoRepository {
     _messageController = StreamController<String>.broadcast();
 
     _gameClient.eventStream.listen((event) {
-      if(event is UnoServerSyncDataEvent) {
+      if (event is UnoServerSyncDataEvent) {
         _handleSyncData(event.state);
       } else if (event is UnoServerActionErrorEvent) {
         _handleActionError(event);
@@ -36,10 +58,10 @@ class UnoRepository {
         _handleSimpleMessage(event);
       } else if (event is UnoServerEndEvent) {
         _handleEnd(event);
-      } else if(event is UnoServerCardPlayedEvent) {
+      } else if (event is UnoServerCardPlayedEvent) {
         // TODO: Handle correctly
         _handleSyncData(event.state);
-      } else if(event is UnoServerCardsDrawnEvent) {
+      } else if (event is UnoServerCardsDrawnEvent) {
         // TODO: Handle correctly
         _handleSyncData(event.state);
       } else if (event is UnoServerPlayerSelectingColorEvent) {
@@ -49,11 +71,18 @@ class UnoRepository {
       } else if (event is UnoServerPlayerSelectedColorEvent) {
         // TODO: Handle correctly
         _handleSyncData(event.state);
-        _messageController.add('Player ${event.playerId} selected color ${event.color}');
+        _messageController
+            .add('Player ${event.playerId} selected color ${event.color}');
       } else if (event is UnoServerPlayerUnoedEvent) {
         // TODO: Handle correctly
         _handleSyncData(event.state);
       } else if (event is UnoServerPlayerSkippedEvent) {
+        // TODO: Handle correctly
+        _handleSyncData(event.state);
+      } else if (event is UnoServerPlayerJoinedEvent) {
+        // TODO: Handle correctly
+        _handleSyncData(event.state);
+      } else if (event is UnoServerPlayerLeftEvent) {
         // TODO: Handle correctly
         _handleSyncData(event.state);
       }
@@ -68,10 +97,12 @@ class UnoRepository {
   Stream<String> get errorMessageStream => _errorMessageController.stream;
   Stream<String> get messageStream => _messageController.stream;
 
+  Stream<String> get gameCodeStream => _gameCodeController.stream;
+
   _handleSyncData(PlayerState syncData) {
     final oldState = _lastPlayerState;
     _lastPlayerState = syncData;
-    if(oldState != _lastPlayerState) {
+    if (oldState != _lastPlayerState) {
       _playerStateController.add(_lastPlayerState!);
     }
   }

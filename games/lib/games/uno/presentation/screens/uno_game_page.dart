@@ -7,7 +7,7 @@ import 'package:games/games/uno/game/player_event.dart';
 import 'package:games/games/uno/game/server_event.dart';
 import 'package:games/games/uno/game/uno_game.dart';
 import 'package:games/games/uno/presentation/bloc/repository/uno_repository.dart';
-import 'package:games/games/uno/presentation/screens/uno_game.dart';
+import 'package:games/games/uno/presentation/screens/test_uno_game_screen.dart';
 
 class UnoHostGamePage extends StatelessWidget {
   final GameServer<UnoPlayerEvent, UnoServerEvent, UnoGame> gameServer;
@@ -20,11 +20,10 @@ class UnoHostGamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiRepositoryProvider(
       providers: [
-        RepositoryProvider(create: (_) => UnoRepository(gameClient)),
+        RepositoryProvider(
+            create: (_) => UnoRepository(gameClient, gameServer: gameServer)),
       ],
-      child: UnoGameView(
-        gameServer: gameServer,
-      ),
+      child: const TestUnoGameScreen(),
     );
   }
 }
@@ -41,7 +40,7 @@ class UnoJoinGamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (_) => UnoRepository(gameClient),
-      child: const UnoGameView(),
+      child: const TestUnoGameScreen(),
     );
   }
 }

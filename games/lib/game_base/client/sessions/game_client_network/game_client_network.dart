@@ -24,20 +24,20 @@ class GameClientNetwork<
   late Game<PlayerGameEvent, ServerGameEvent> _game;
   ClientWebRTCHandler? _webRTCHandler;
 
-  List<PlayerGameEvent> _playerEventQueue = [];
+  final List<PlayerGameEvent> _playerEventQueue = [];
 
   String _selfId = getRandomString(16);
 
   GameClientNetwork(G Function(Map<String, dynamic> config) gameFactory,
-      AppConfig appConfig, String externalSessionCode)
+      AppConfig appConfig, String externalSessionCode, String name)
       : super(gameFactory) {
     _serverEventStreamController =
         StreamController<ServerGameEvent>.broadcast();
     _apiClient = ApiClient(config: appConfig);
-    init(appConfig, externalSessionCode);
+    init(appConfig, externalSessionCode, name);
   }
 
-  Future<void> init(AppConfig appConfig, String externalSessionCode) async {
+  Future<void> init(AppConfig appConfig, String externalSessionCode, String name) async {
     final sessionData = await _apiClient.getSessionData(externalSessionCode);
     _game = gameFactory(sessionData.gameConfig);
 
@@ -48,6 +48,7 @@ class GameClientNetwork<
     _socket = SignalerSocket(
       config: appConfig,
       selfId: _selfId,
+      name: name,
       isServer: false,
       type: sessionData.token,
       // Since we aren't the server, we don't need to send any game configs to the server
@@ -74,7 +75,7 @@ class GameClientNetwork<
           _socket.close();
           notifyListeners();
 
-          init(appConfig, externalSessionCode);
+          init(appConfig, externalSessionCode, name);
         } else {
           print('Signaler Error: ${error.reason}');
         }

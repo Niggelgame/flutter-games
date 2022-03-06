@@ -8,10 +8,11 @@ class Player<PlayerGameEvent extends Serializable, ServerGameEvent extends Seria
   final SingleSessionHandler<PlayerGameEvent, ServerGameEvent> _session;
   final GameServer<PlayerGameEvent, ServerGameEvent, G> server;
   late final String id;
+  final String name;
   final bool isAdmin;
 
   @mustCallSuper
-  Player(this._session, this.server, this.isAdmin) {
+  Player(this._session, this.server, this.name, this.isAdmin) {
     id = _session.sessionId;
     _session.playerGameEventStream.listen((event) {
       server.game.onPlayerGameEvent(this, event);

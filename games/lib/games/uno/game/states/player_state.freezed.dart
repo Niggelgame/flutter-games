@@ -25,6 +25,7 @@ class _$PlayerStateTearOff {
   _PlayerState call(
       SimpleGameState gameState,
       String playersTurnId,
+      String name,
       List<UnoCard> hand,
       List<OtherPlayerState> otherPlayers,
       UnoCard? lastPlayedCard,
@@ -35,6 +36,7 @@ class _$PlayerStateTearOff {
     return _PlayerState(
       gameState,
       playersTurnId,
+      name,
       hand,
       otherPlayers,
       lastPlayedCard,
@@ -57,6 +59,7 @@ const $PlayerState = _$PlayerStateTearOff();
 mixin _$PlayerState {
   SimpleGameState get gameState => throw _privateConstructorUsedError;
   String get playersTurnId => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   List<UnoCard> get hand => throw _privateConstructorUsedError;
   List<OtherPlayerState> get otherPlayers => throw _privateConstructorUsedError;
   UnoCard? get lastPlayedCard => throw _privateConstructorUsedError;
@@ -79,6 +82,7 @@ abstract class $PlayerStateCopyWith<$Res> {
   $Res call(
       {SimpleGameState gameState,
       String playersTurnId,
+      String name,
       List<UnoCard> hand,
       List<OtherPlayerState> otherPlayers,
       UnoCard? lastPlayedCard,
@@ -100,6 +104,7 @@ class _$PlayerStateCopyWithImpl<$Res> implements $PlayerStateCopyWith<$Res> {
   $Res call({
     Object? gameState = freezed,
     Object? playersTurnId = freezed,
+    Object? name = freezed,
     Object? hand = freezed,
     Object? otherPlayers = freezed,
     Object? lastPlayedCard = freezed,
@@ -116,6 +121,10 @@ class _$PlayerStateCopyWithImpl<$Res> implements $PlayerStateCopyWith<$Res> {
       playersTurnId: playersTurnId == freezed
           ? _value.playersTurnId
           : playersTurnId // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       hand: hand == freezed
           ? _value.hand
@@ -159,6 +168,7 @@ abstract class _$PlayerStateCopyWith<$Res>
   $Res call(
       {SimpleGameState gameState,
       String playersTurnId,
+      String name,
       List<UnoCard> hand,
       List<OtherPlayerState> otherPlayers,
       UnoCard? lastPlayedCard,
@@ -182,6 +192,7 @@ class __$PlayerStateCopyWithImpl<$Res> extends _$PlayerStateCopyWithImpl<$Res>
   $Res call({
     Object? gameState = freezed,
     Object? playersTurnId = freezed,
+    Object? name = freezed,
     Object? hand = freezed,
     Object? otherPlayers = freezed,
     Object? lastPlayedCard = freezed,
@@ -198,6 +209,10 @@ class __$PlayerStateCopyWithImpl<$Res> extends _$PlayerStateCopyWithImpl<$Res>
       playersTurnId == freezed
           ? _value.playersTurnId
           : playersTurnId // ignore: cast_nullable_to_non_nullable
+              as String,
+      name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       hand == freezed
           ? _value.hand
@@ -237,6 +252,7 @@ class _$_PlayerState with DiagnosticableTreeMixin implements _PlayerState {
   _$_PlayerState(
       this.gameState,
       this.playersTurnId,
+      this.name,
       this.hand,
       this.otherPlayers,
       this.lastPlayedCard,
@@ -252,6 +268,8 @@ class _$_PlayerState with DiagnosticableTreeMixin implements _PlayerState {
   final SimpleGameState gameState;
   @override
   final String playersTurnId;
+  @override
+  final String name;
   @override
   final List<UnoCard> hand;
   @override
@@ -269,7 +287,7 @@ class _$_PlayerState with DiagnosticableTreeMixin implements _PlayerState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'PlayerState(gameState: $gameState, playersTurnId: $playersTurnId, hand: $hand, otherPlayers: $otherPlayers, lastPlayedCard: $lastPlayedCard, playerRequestingColor: $playerRequestingColor, currentColor: $currentColor, currentDirection: $currentDirection, allowSkip: $allowSkip)';
+    return 'PlayerState(gameState: $gameState, playersTurnId: $playersTurnId, name: $name, hand: $hand, otherPlayers: $otherPlayers, lastPlayedCard: $lastPlayedCard, playerRequestingColor: $playerRequestingColor, currentColor: $currentColor, currentDirection: $currentDirection, allowSkip: $allowSkip)';
   }
 
   @override
@@ -279,6 +297,7 @@ class _$_PlayerState with DiagnosticableTreeMixin implements _PlayerState {
       ..add(DiagnosticsProperty('type', 'PlayerState'))
       ..add(DiagnosticsProperty('gameState', gameState))
       ..add(DiagnosticsProperty('playersTurnId', playersTurnId))
+      ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('hand', hand))
       ..add(DiagnosticsProperty('otherPlayers', otherPlayers))
       ..add(DiagnosticsProperty('lastPlayedCard', lastPlayedCard))
@@ -296,6 +315,7 @@ class _$_PlayerState with DiagnosticableTreeMixin implements _PlayerState {
             const DeepCollectionEquality().equals(other.gameState, gameState) &&
             const DeepCollectionEquality()
                 .equals(other.playersTurnId, playersTurnId) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality().equals(other.hand, hand) &&
             const DeepCollectionEquality()
                 .equals(other.otherPlayers, otherPlayers) &&
@@ -315,6 +335,7 @@ class _$_PlayerState with DiagnosticableTreeMixin implements _PlayerState {
       runtimeType,
       const DeepCollectionEquality().hash(gameState),
       const DeepCollectionEquality().hash(playersTurnId),
+      const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(hand),
       const DeepCollectionEquality().hash(otherPlayers),
       const DeepCollectionEquality().hash(lastPlayedCard),
@@ -338,6 +359,7 @@ abstract class _PlayerState implements PlayerState {
   factory _PlayerState(
       SimpleGameState gameState,
       String playersTurnId,
+      String name,
       List<UnoCard> hand,
       List<OtherPlayerState> otherPlayers,
       UnoCard? lastPlayedCard,
@@ -353,6 +375,8 @@ abstract class _PlayerState implements PlayerState {
   SimpleGameState get gameState;
   @override
   String get playersTurnId;
+  @override
+  String get name;
   @override
   List<UnoCard> get hand;
   @override
@@ -381,9 +405,10 @@ OtherPlayerState _$OtherPlayerStateFromJson(Map<String, dynamic> json) {
 class _$OtherPlayerStateTearOff {
   const _$OtherPlayerStateTearOff();
 
-  _OtherPlayerState call(String playerId, int handLength) {
+  _OtherPlayerState call(String playerId, String name, int handLength) {
     return _OtherPlayerState(
       playerId,
+      name,
       handLength,
     );
   }
@@ -399,6 +424,7 @@ const $OtherPlayerState = _$OtherPlayerStateTearOff();
 /// @nodoc
 mixin _$OtherPlayerState {
   String get playerId => throw _privateConstructorUsedError;
+  String get name => throw _privateConstructorUsedError;
   int get handLength => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -412,7 +438,7 @@ abstract class $OtherPlayerStateCopyWith<$Res> {
   factory $OtherPlayerStateCopyWith(
           OtherPlayerState value, $Res Function(OtherPlayerState) then) =
       _$OtherPlayerStateCopyWithImpl<$Res>;
-  $Res call({String playerId, int handLength});
+  $Res call({String playerId, String name, int handLength});
 }
 
 /// @nodoc
@@ -427,12 +453,17 @@ class _$OtherPlayerStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? playerId = freezed,
+    Object? name = freezed,
     Object? handLength = freezed,
   }) {
     return _then(_value.copyWith(
       playerId: playerId == freezed
           ? _value.playerId
           : playerId // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       handLength: handLength == freezed
           ? _value.handLength
@@ -449,7 +480,7 @@ abstract class _$OtherPlayerStateCopyWith<$Res>
           _OtherPlayerState value, $Res Function(_OtherPlayerState) then) =
       __$OtherPlayerStateCopyWithImpl<$Res>;
   @override
-  $Res call({String playerId, int handLength});
+  $Res call({String playerId, String name, int handLength});
 }
 
 /// @nodoc
@@ -466,12 +497,17 @@ class __$OtherPlayerStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? playerId = freezed,
+    Object? name = freezed,
     Object? handLength = freezed,
   }) {
     return _then(_OtherPlayerState(
       playerId == freezed
           ? _value.playerId
           : playerId // ignore: cast_nullable_to_non_nullable
+              as String,
+      name == freezed
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
       handLength == freezed
           ? _value.handLength
@@ -486,7 +522,7 @@ class __$OtherPlayerStateCopyWithImpl<$Res>
 class _$_OtherPlayerState
     with DiagnosticableTreeMixin
     implements _OtherPlayerState {
-  _$_OtherPlayerState(this.playerId, this.handLength);
+  _$_OtherPlayerState(this.playerId, this.name, this.handLength);
 
   factory _$_OtherPlayerState.fromJson(Map<String, dynamic> json) =>
       _$$_OtherPlayerStateFromJson(json);
@@ -494,11 +530,13 @@ class _$_OtherPlayerState
   @override
   final String playerId;
   @override
+  final String name;
+  @override
   final int handLength;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'OtherPlayerState(playerId: $playerId, handLength: $handLength)';
+    return 'OtherPlayerState(playerId: $playerId, name: $name, handLength: $handLength)';
   }
 
   @override
@@ -507,6 +545,7 @@ class _$_OtherPlayerState
     properties
       ..add(DiagnosticsProperty('type', 'OtherPlayerState'))
       ..add(DiagnosticsProperty('playerId', playerId))
+      ..add(DiagnosticsProperty('name', name))
       ..add(DiagnosticsProperty('handLength', handLength));
   }
 
@@ -516,6 +555,7 @@ class _$_OtherPlayerState
         (other.runtimeType == runtimeType &&
             other is _OtherPlayerState &&
             const DeepCollectionEquality().equals(other.playerId, playerId) &&
+            const DeepCollectionEquality().equals(other.name, name) &&
             const DeepCollectionEquality()
                 .equals(other.handLength, handLength));
   }
@@ -524,6 +564,7 @@ class _$_OtherPlayerState
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(playerId),
+      const DeepCollectionEquality().hash(name),
       const DeepCollectionEquality().hash(handLength));
 
   @JsonKey(ignore: true)
@@ -538,7 +579,7 @@ class _$_OtherPlayerState
 }
 
 abstract class _OtherPlayerState implements OtherPlayerState {
-  factory _OtherPlayerState(String playerId, int handLength) =
+  factory _OtherPlayerState(String playerId, String name, int handLength) =
       _$_OtherPlayerState;
 
   factory _OtherPlayerState.fromJson(Map<String, dynamic> json) =
@@ -546,6 +587,8 @@ abstract class _OtherPlayerState implements OtherPlayerState {
 
   @override
   String get playerId;
+  @override
+  String get name;
   @override
   int get handLength;
   @override
