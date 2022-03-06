@@ -14,7 +14,7 @@ class TestUnoGameScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const _TestUnoGameScreenPage();
+    return _TestUnoGameScreenPage();
   }
 }
 
@@ -32,7 +32,7 @@ class _TestUnoGameScreenPage extends StatelessWidget {
         initialOverlayIdentifier: (context, game) => InitialOverlay(
               playerStateStream: repo.playerStateStream,
               gameCodeStream: repo.gameCodeStream,
-              start: repo.start,
+              start: repo.isAdmin ? repo.start : null,
               initialPlayerState: repo.lastPlayerState,
               initialGameCode: repo.lastGameCode,
             ),

@@ -15,6 +15,9 @@ class UnoRepository {
   late final StreamController<String> _errorMessageController;
   late final StreamController<String> _messageController;
 
+  // Controlled by whether a gameServer is passed into the constructor or not
+  late final bool isAdmin;
+
   late final StreamController<String> _gameCodeController;
   String? _lastGameCode;
   String? get lastGameCode => _lastGameCode;
@@ -31,6 +34,7 @@ class UnoRepository {
       {GameServer<UnoPlayerEvent, UnoServerEvent, UnoGame>? gameServer}) {
     _gameCodeController = StreamController<String>.broadcast();
     if (gameServer != null) {
+      isAdmin = true;
       if(gameServer.gameCode != null) {
         _lastGameCode = gameServer.gameCode;
         _gameCodeController.add(_lastGameCode!);
@@ -41,6 +45,8 @@ class UnoRepository {
           _gameCodeController.add(gameServer.gameCode!);
         }
       });
+    } else {
+      isAdmin = false;
     }
 
     _selfId = _gameClient.selfId;

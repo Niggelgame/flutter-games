@@ -41,6 +41,14 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
   }
 
   @override
+  void onPlayerLeft(Player player) {
+    super.onPlayerLeft(player);
+    gameState.players.remove(player.id);
+    broadcastWithPlayerState(
+        (state, _) => UnoServerEvent.playerLeft(player.id, state));
+  }
+
+  @override
   Map<String, dynamic> get config => gameConfig.toJson();
 
   @override
@@ -181,7 +189,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
         gameState = gameState.copyWith(state: SimpleGameState.awaitingPlay);
         broadcastPlayerState();
       } else {
-        player.send(UnoServerEvent.actionError('Game is already running'));
+        player.send(UnoServerEvent.actionError('Game is already running or you are not allowed to start the game'));
       }
     } else if (event is UnoPlayerDrawCardEvent) {
       if (gameState.state == SimpleGameState.awaitingPlay) {
@@ -329,7 +337,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
               }
             case UnoCardType.reverse:
               {
-                // Fix next player logic (esp. with 2 players)
+                // TODO: Fix next player logic (esp. with 2 players)
                 gameState = gameState.copyWith(
                     currentDirection:
                         gameState.currentDirection == Direction.clockwise

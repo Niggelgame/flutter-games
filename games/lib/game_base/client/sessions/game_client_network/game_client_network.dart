@@ -119,7 +119,7 @@ class GameClientNetwork<
 
   @override
   void send(PlayerGameEvent event) {
-    if(_webRTCHandler != null) {
+    if(_webRTCHandler != null && _webRTCHandler?.session.dc != null) {
       _webRTCHandler!.send(event);
     } else {
       _playerEventQueue.add(event);

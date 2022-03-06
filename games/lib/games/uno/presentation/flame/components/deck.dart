@@ -18,15 +18,17 @@ class DeckComponent extends PositionComponent {
 
   UnoCard? topCard;
 
-  DeckComponent({
-    required this.playerStateStream,
-    this.initialPlayerState,
-    required this.onDeckTap,
-    required Vector2 position,
-    required Vector2 size
-  }) : super(position: position, size: size);
+  _DrawDeckComponent? _drawDeckComponent;
 
-   @override
+  DeckComponent(
+      {required this.playerStateStream,
+      this.initialPlayerState,
+      required this.onDeckTap,
+      required Vector2 position,
+      required Vector2 size})
+      : super(position: position, size: size);
+
+  @override
   // TODO: implement debugMode
   bool get debugMode => true;
 
@@ -37,10 +39,18 @@ class DeckComponent extends PositionComponent {
     });
 
     final deckWidth = size.x / 2.5;
+    _drawDeckComponent = _DrawDeckComponent(onDeckTap)
+      ..size = Vector2(deckWidth, size.y);
 
-    add(_DrawDeckComponent(onDeckTap)..size = Vector2(deckWidth, size.y));
+    add(_drawDeckComponent!);
 
     return super.onLoad();
+  }
+
+  @override
+  set size(Vector2 size) {
+    _drawDeckComponent?.size = Vector2(size.x / 2.5, size.y);
+    super.size = size;
   }
 
   @override
@@ -53,7 +63,7 @@ class DeckComponent extends PositionComponent {
 class _DrawDeckComponent extends PositionComponent with Tappable, HasGameRef {
   final void Function() onTap;
 
-  late final List<SingleCardComponent> stack;
+  final List<SingleCardComponent> stack = [];
 
   _DrawDeckComponent(this.onTap);
 
@@ -68,13 +78,12 @@ class _DrawDeckComponent extends PositionComponent with Tappable, HasGameRef {
     return false;
   }
 
-   @override
+  @override
   // TODO: implement debugMode
   bool get debugMode => false;
 
   @override
   Future<void>? onLoad() {
-    stack = <SingleCardComponent>[];
     for (int i = 0; i < 3; i++) {
       final comp = SingleCardComponent(null, position: Vector2(10.0 * i, 0));
       stack.add(comp);
@@ -82,12 +91,17 @@ class _DrawDeckComponent extends PositionComponent with Tappable, HasGameRef {
       add(comp
         ..anchor = Anchor.bottomLeft
         ..angle = 0.03 * pi * i
-        ..scale = Vector2(0.5, 0.5));
+        ..scale = Vector2((size.y / 400), (size.y / 400)));
     }
 
     return super.onLoad();
   }
 
-
-
+  @override
+  set size(Vector2 size) {
+    for (final e in stack) {
+      e.scale = Vector2((size.y / 400), (size.y / 400));
+    }
+    super.size = size;
+  }
 }

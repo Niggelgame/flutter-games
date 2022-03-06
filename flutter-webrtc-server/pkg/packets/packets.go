@@ -1,11 +1,13 @@
 package packets
 
 type Method string
+
 func MethodAsString(m Method) string {
 	return string(m)
 }
 
 type ResponseMethod string
+
 func ResponseMethodAsString(m ResponseMethod) string {
 	return string(m)
 }
@@ -43,6 +45,7 @@ type ResponsePacket struct {
 
 type HelloPacket struct {
 	Id         string                 `json:"id"`
+	Name       string                 `json:"name"`
 	Type       string                 `json:"type"`
 	IsServer   bool                   `json:"is_server"`
 	GameConfig map[string]interface{} `json:"game_config"`
@@ -50,6 +53,7 @@ type HelloPacket struct {
 
 type InvitePacket struct {
 	PeerId string `json:"peer_id"`
+	Name   string `json:"name"`
 }
 
 type InitPacket struct {

@@ -14,6 +14,6 @@ Even though this is a private project and I probably won't work on this forever,
 
 ## Project Structure
 
-Signaling server: [flutter-webrtc-server](https://github.com/Niggelgame/flutter-games/blob/master/flutter-webrtc-server)
+Signaling server: [flutter-webrtc-server](https://github.com/Niggelgame/flutter-games/blob/main/flutter-webrtc-server)
 
-Flutter app: [games](https://github.com/Niggelgame/flutter-games/blob/master/games)
+Flutter app: [games](https://github.com/Niggelgame/flutter-games/blob/main/games)

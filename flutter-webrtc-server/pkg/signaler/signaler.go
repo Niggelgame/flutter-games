@@ -215,6 +215,7 @@ func (s *Signaler) HandleNewWebSocket(conn *websocket.WebSocketConn, request *ht
 					serverPeer: serverPeer,
 					conn:       conn,
 					id:         hello.Id,
+					name:       hello.Name,
 				}
 				serverPeer.AddClientPeer(clientPeer)
 				s.peers[clientPeer.id] = clientPeer

@@ -15,6 +15,7 @@ type Peer interface {
 type ClientPeer struct {
 	serverPeer *ServerPeer
 	id         string
+	name       string
 	conn       *websocket.WebSocketConn
 }
 
@@ -54,7 +55,7 @@ func (s *ServerPeer) Init() string {
 
 func (s *ServerPeer) AddClientPeer(c *ClientPeer) {
 	s.sessions[c.id] = c
-	_ = s.conn.SendI(packets.ResponsePacket{Type: packets.Invite, Data: packets.InvitePacket{PeerId: c.id}})
+	_ = s.conn.SendI(packets.ResponsePacket{Type: packets.Invite, Data: packets.InvitePacket{PeerId: c.id, Name: c.name}})
 }
 
 func (s *ServerPeer) Close() {

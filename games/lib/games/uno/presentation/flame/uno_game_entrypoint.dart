@@ -83,6 +83,7 @@ class UnoGameEntrypoint extends FlameBlocGame with HasTappables {
   @override
   void onRemove() {
     _subscription.cancel();
+    // TODO: Send leave if not finished yet
     super.onRemove();
   }
 
