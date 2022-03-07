@@ -4,6 +4,14 @@ import 'package:flame/components.dart';
 import 'package:games/games/uno/models/uno_card.dart';
 import 'package:games/games/uno/presentation/flame/uno_game_entrypoint.dart';
 
+const spriteWidth = 3362.0;
+const spriteHeight = 2882.0;
+
+const cardWidth = spriteWidth / 14;
+const cardHeight = spriteHeight / 8;
+
+const cardHeightWidthRatio = cardHeight / cardWidth;
+
 double _getCardColorOffset(UnoCard card) {
   switch (card.color) {
     case UnoCardColor.blue:
@@ -58,16 +66,18 @@ Vector2 _getCardOffset(UnoCard? card) {
 }
 
 class SingleCardComponent extends PositionComponent
-    with HasGameRef<UnoGameEntrypoint>, Tappable {
+    with HasGameRef<UnoGameEntrypoint>, Tappable, Hoverable {
   late final Image _rawSpriteSheet;
   late final Vector2 _cardSize;
 
   final VoidCallback? onTap;
+  final void Function(SingleCardComponent)? onHoverEnterCallback;
+  final void Function(SingleCardComponent)? onHoverLeaveCallback;
 
   UnoCard? _card;
-  late Sprite _sprite;
+  Sprite? _sprite;
 
-  SingleCardComponent(this._card, {this.onTap, Vector2? position, Vector2? size,}) : super(position: position, size: size);
+  SingleCardComponent(this._card, {this.onTap, Vector2? position, Vector2? size, this.onHoverEnterCallback, this.onHoverLeaveCallback}) : super(position: position, size: size);
 
   setCard(UnoCard? card) {
     _card = card;
@@ -96,7 +106,7 @@ class SingleCardComponent extends PositionComponent
 
   @override
   void render(Canvas canvas) {
-    _sprite.render(canvas);
+    _sprite?.render(canvas, size: size.isInfinite || size.isZero() ? null : size);
     super.render(canvas);
   }
 
@@ -104,7 +114,26 @@ class SingleCardComponent extends PositionComponent
   bool onTapDown(info) {
     if (onTap != null) {
       onTap!();
+      return false;
     }
-    return false;
+    return super.onTapDown(info);
+  }
+
+  @override
+  bool onHoverEnter(info) {
+    if(onHoverEnterCallback != null) {
+      onHoverEnterCallback!(this);
+      return false;
+    }
+    return super.onHoverEnter(info);
+  }
+
+  @override
+  bool onHoverLeave(info) {
+    if(onHoverLeaveCallback != null) {
+      onHoverLeaveCallback!(this);
+      return false;
+    }
+    return super.onHoverLeave(info);
   }
 }

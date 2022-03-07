@@ -1,5 +1,9 @@
 # games
 
+## TODOS
+
+- Connection Exception Handling (WebSocket connection lost / not creatable, Player Leaving must stop connection, ...)
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.

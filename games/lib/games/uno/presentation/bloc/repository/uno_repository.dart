@@ -125,32 +125,31 @@ class UnoRepository {
     _messageController.add('${event.winnerId} won the game!');
   }
 
-  drawCard() {
+  void drawCard() {
     _gameClient.send(UnoPlayerEvent.drawCard());
   }
 
-  playCard(UnoCard card) {
+  void playCard(UnoCard card) {
     _gameClient.send(UnoPlayerEvent.playCard(card));
   }
 
-  selectColor(UnoCardColor color) {
+  void selectColor(UnoCardColor color) {
     _gameClient.send(UnoPlayerEvent.selectColor(color));
   }
 
-  flagUno() {
+  void flagUno() {
     _gameClient.send(UnoPlayerEvent.flagUno());
   }
 
-  skip() {
+  void skip() {
     _gameClient.send(UnoPlayerEvent.skip());
   }
 
-  start() {
-    print('Sending start');
+  void start() {
     _gameClient.send(UnoPlayerEvent.start());
   }
 
-  requestSync() {
+  void requestSync() {
     _gameClient.send(UnoPlayerEvent.syncRequest());
   }
 }

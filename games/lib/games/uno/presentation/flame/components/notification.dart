@@ -5,7 +5,8 @@ import 'package:flame/effects.dart';
 import 'package:flutter/material.dart';
 import 'package:games/games/uno/presentation/flame/uno_game_entrypoint.dart';
 
-class NotificationComponent extends PositionComponent with HasGameRef<UnoGameEntrypoint> {
+class NotificationComponent extends PositionComponent
+    with HasGameRef<UnoGameEntrypoint> {
   final Stream<String> messageStream;
   final Stream<String> errorMessageStream;
 
@@ -44,34 +45,34 @@ class NotificationComponent extends PositionComponent with HasGameRef<UnoGameEnt
       boxConfig: TextBoxConfig(maxWidth: gameRef.size.x / 3 * 2),
       text: text,
       anchor: Anchor.center,
-      position: Vector2(gameRef.size.x / 2, gameRef.size.y - (gameRef.size.y / 10)),
+      position: Vector2(gameRef.size.x / 2, gameRef.size.y * 1 / 10),
       textRenderer: TextPaint(
         style: TextStyle(
           color: c,
           fontSize: 25,
         ),
       ),
+      priority: 1000,
     )
-       ..add(
-         MoveEffect.by(
-           Vector2(0, -20),
-           EffectController(
-             duration: 3,
-             infinite: false,
-             curve: Curves.easeOut,
-           ),
-         ),
-       )
+      ..add(
+        MoveEffect.by(
+          Vector2(0, -20),
+          EffectController(
+            duration: 3,
+            infinite: false,
+            curve: Curves.easeOut,
+          ),
+        ),
+      )
       // ..add(
       //   OpacityEffect.fadeOut(
       //     CurvedEffectController(3, Curves.bounceIn),
       //   ),
       // )
-       ..add(
-         RemoveEffect(
-           delay: 3,
-         ),
-       )
-      );
+      ..add(
+        RemoveEffect(
+          delay: 3,
+        ),
+      ));
   }
 }

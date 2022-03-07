@@ -62,14 +62,15 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
 
   void broadcastPlayerState() {
     for (var player in players) {
-      player.send(UnoServerEvent.syncData(gameState.asPlayerState(player.id)));
+      player.send(
+          UnoServerEvent.syncData(gameState.asPlayerState(player.id, players)));
     }
   }
 
   void broadcastWithPlayerState(
       UnoServerEvent Function(PlayerState state, String id) f) {
     for (var player in players) {
-      player.send(f(gameState.asPlayerState(player.id), player.id));
+      player.send(f(gameState.asPlayerState(player.id, players), player.id));
     }
   }
 
@@ -93,7 +94,8 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
     }
   }
 
-  void currentPlayerDrawCards(int count, {String? reason}) {
+  void currentPlayerDrawCards(int count,
+      {String? reason, bool updateCurrentPlayerDrewCard = true}) {
     fillDeck(count);
 
     var cards = gameState.stack.draw(count);
@@ -101,9 +103,11 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
     gameState.players[gameState.currentPlayer] =
         playerState.copyWith(hand: playerState.hand + cards);
 
-    gameState = gameState.copyWith(
-      currentPlayerDrewCard: true,
-    );
+    if (updateCurrentPlayerDrewCard) {
+      gameState = gameState.copyWith(
+        currentPlayerDrewCard: true,
+      );
+    }
 
     broadcastWithPlayerState((state, id) => UnoServerEvent.cardsDrawn(
         gameState.currentPlayer,
@@ -117,24 +121,21 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
     return card.type == UnoCardType.wild ||
         card.type == UnoCardType.wildDrawFour ||
         card.type == UnoCardType.skip ||
-        card.type == UnoCardType.reverse || 
+        card.type == UnoCardType.reverse ||
         card.type == UnoCardType.drawTwo;
   }
 
   Player nextPlayer(String currentPlayer) {
+    final currentPlayerIndex =
+        players.indexWhere((element) => element.id == currentPlayer);
     if (gameState.currentDirection == Direction.clockwise) {
-      return players.indexWhere((element) => element.id == currentPlayer) ==
-              players.length - 1
+      return currentPlayerIndex == players.length - 1
           ? players.first
-          : players[players.indexWhere(
-                  (element) => element.id == gameState.currentPlayer) +
-              1];
+          : players[currentPlayerIndex + 1];
     } else {
-      return players.indexWhere((element) => element.id == currentPlayer) == 0
+      return currentPlayerIndex == 0
           ? players.last
-          : players[players.indexWhere(
-                  (element) => element.id == gameState.currentPlayer) -
-              1];
+          : players[currentPlayerIndex - 1];
     }
   }
 
@@ -189,7 +190,8 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
         gameState = gameState.copyWith(state: SimpleGameState.awaitingPlay);
         broadcastPlayerState();
       } else {
-        player.send(UnoServerEvent.actionError('Game is already running or you are not allowed to start the game'));
+        player.send(UnoServerEvent.actionError(
+            'Game is already running or you are not allowed to start the game'));
       }
     } else if (event is UnoPlayerDrawCardEvent) {
       if (gameState.state == SimpleGameState.awaitingPlay) {
@@ -216,7 +218,8 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
             UnoServerEvent.playerSelectedColor(player.id, event.color, state));
       }
     } else if (event is UnoPlayerSyncRequestEvent) {
-      player.send(UnoServerEvent.syncData(gameState.asPlayerState(player.id)));
+      player.send(
+          UnoServerEvent.syncData(gameState.asPlayerState(player.id, players)));
     } else if (event is UnoPlayerPlayCardEvent) {
       if (gameState.state == SimpleGameState.awaitingPlay) {
         if (gameState.currentPlayer == player.id) {
@@ -278,7 +281,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
                 }
               case DrawForceStrategy.allowAllFitting:
                 {
-                  if (card.type != UnoCardType.drawTwo ||
+                  if (card.type != UnoCardType.drawTwo &&
                       card.type != UnoCardType.wildDrawFour) {
                     player.send(UnoServerEvent.actionError(
                         'You need to play a draw card or skip.'));
@@ -302,8 +305,9 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
           }
 
           currentPlayer.hand.remove(card);
-          gameState =
-              gameState.copyWith(cardsPutDown: gameState.cardsPutDown + [card], currentColor: card.color);
+          gameState = gameState.copyWith(
+              cardsPutDown: gameState.cardsPutDown + [card],
+              currentColor: card.color);
 
           broadcastWithPlayerState(
               (state, id) => UnoServerEvent.cardPlayed(player.id, card, state));
@@ -315,7 +319,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
             if (!gameState.currentPlayerFlaggedForUno) {
               await Future.delayed(const Duration(seconds: 3));
               if (!gameState.currentPlayerFlaggedForUno) {
-                currentPlayerDrawCards(3);
+                currentPlayerDrawCards(3, updateCurrentPlayerDrewCard: false);
               }
             }
           }
@@ -325,7 +329,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
           // Handle Special Actions
           switch (card.type) {
             case UnoCardType.skip:
-              { 
+              {
                 // TODO: Fix next player logic
                 final nextPlayerId = nextPlayer(nextPlayer(player.id).id).id;
                 gameState = gameState.copyWith(
@@ -421,6 +425,7 @@ class UnoGame extends Game<UnoPlayerEvent, UnoServerEvent> {
             if (!gameConfig.allowPlayerAfterForcedDraw) {
               gameState = gameState.copyWith(
                   currentPlayer: nextPlayer(player.id).id,
+                  cardsInAddDraw: 0,
                   state: SimpleGameState.awaitingPlay,
                   currentPlayerDrewCard: false);
               broadcastWithPlayerState((state, id) =>

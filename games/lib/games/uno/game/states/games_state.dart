@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:games/game_base/server/player.dart';
 import 'package:games/games/uno/game/states/player_state.dart';
 import 'package:games/games/uno/models/uno_card.dart';
 
@@ -41,7 +42,9 @@ class GameState with _$GameState {
 }
 
 extension GameStateX on GameState {
-  PlayerState asPlayerState(String playerId) {
+  PlayerState asPlayerState(String playerId, List<Player> playerList) {
+    final currentPlayerIndex = playerList.indexWhere((p) => p.id == playerId);
+
     final player = players[playerId]!;
     final otherPlayers = players
         .map((key, value) =>
@@ -49,6 +52,16 @@ extension GameStateX on GameState {
         .values
         .where((value) => value.playerId != playerId)
         .toList();
+
+    // Sort in such way, that the first player in the `otherPlayers` list is the one to the left of the current player
+    otherPlayers.sort((a, b) {
+      var aIndex = playerList.indexWhere((p) => p.id == a.playerId);
+      if (aIndex < currentPlayerIndex) aIndex = aIndex + playerList.length;
+      var bIndex = playerList.indexWhere((p) => p.id == b.playerId);
+      if (bIndex < currentPlayerIndex) bIndex = bIndex + playerList.length;
+      return aIndex.compareTo(bIndex);
+    });
+
     return PlayerState(
         state,
         currentPlayer,
@@ -59,6 +72,8 @@ extension GameStateX on GameState {
         playerRequestingColor,
         currentColor,
         currentDirection,
-        currentPlayer == playerId && (cardsInAddDraw > 0 || currentPlayerDrewCard));
+        currentPlayer == playerId &&
+        // TODO: Fix "currentPlayerDrewCard" - not really working as expected
+            (cardsInAddDraw > 0 || currentPlayerDrewCard));
   }
 }
