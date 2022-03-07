@@ -65,9 +65,15 @@ class UnoGameEntrypoint extends FlameBlocGame with HasTappables, HasHoverables {
             if (!overlays.isActive(colorSelectorOverlayIdentifier)) {
               overlays.add(colorSelectorOverlayIdentifier);
             }
-          } else {
-            if (overlays.isActive(colorSelectingOverlayIdentifier)) {
+            if(overlays.isActive(colorSelectingOverlayIdentifier)) {
               overlays.remove(colorSelectingOverlayIdentifier);
+            }
+          } else {
+            if (!overlays.isActive(colorSelectingOverlayIdentifier)) {
+              overlays.add(colorSelectingOverlayIdentifier);
+            }
+            if(overlays.isActive(colorSelectorOverlayIdentifier)) {
+              overlays.remove(colorSelectorOverlayIdentifier);
             }
           }
         } else {
