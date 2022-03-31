@@ -45,7 +45,7 @@ jobs:
       DOCKER_REGISTRY: ghcr.io
       DOCKER_IMAGE: niggelgame/flutter-games-server
       DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ GITHUB_TOKEN }}
+      DOCKER_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
       DOCKER_TARGET_PLATFORM: linux/x86_64
     steps:
       - name: Checkout code
