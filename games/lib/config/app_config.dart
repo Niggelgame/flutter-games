@@ -19,7 +19,7 @@ class AppConfig {
 
 final defaultConfig = AppConfig(
   secureTraffic: false,
-  apiHost: 'localhost',
+  apiHost: '192.168.19.38',
   apiPort: 8080,
   websocketPath: '/ws',
   turnPath: '/api/turn',

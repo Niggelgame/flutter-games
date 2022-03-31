@@ -146,6 +146,8 @@ class OwnHandComponent extends PositionComponent
   @override
   void onGameResize(Vector2 gameSize) {
     _lineAbovePlayer?.size = Vector2(size.x, 5);
+    _createComponents();
+
     super.onGameResize(gameSize);
   }
 

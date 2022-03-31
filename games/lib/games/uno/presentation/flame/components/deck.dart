@@ -84,8 +84,8 @@ class _ColorCircleComponent extends PositionComponent
 
   StreamSubscription? _subscription;
 
-  @override
-  bool get debugMode => true;
+  // @override
+  // bool get debugMode => true;
 
   _ColorCircleComponent({required this.radius}) : assert(radius >= 0);
 

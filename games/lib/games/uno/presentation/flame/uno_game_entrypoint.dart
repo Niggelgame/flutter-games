@@ -1,9 +1,12 @@
 import 'dart:async';
-import 'dart:ui';
+import 'dart:ui' hide TextStyle;
 
 import 'package:flame/components.dart';
+import 'package:flame/game.dart';
 import 'package:flame/layers.dart';
+import 'package:flame/palette.dart';
 import 'package:flame_bloc/flame_bloc.dart';
+import 'package:flutter/material.dart';
 import 'package:games/games/uno/game/states/games_state.dart';
 import 'package:games/games/uno/presentation/bloc/repository/uno_repository.dart';
 import 'package:games/games/uno/presentation/flame/components/deck.dart';
@@ -25,7 +28,9 @@ class BackgroundLayer extends PreRenderedLayer {
   }
 }
 
-class UnoGameEntrypoint extends FlameBlocGame with HasTappables, HasHoverables {
+class UnoGameEntrypoint extends FlameBlocGame with HasTappables, HasHoverables,  FPSCounter {
+  static final fpsTextConfig = TextPaint(style: TextStyle(color: BasicPalette.white.color), );
+
   final UnoRepository unoRepo;
   StreamSubscription? _subscription;
 
@@ -168,6 +173,9 @@ class UnoGameEntrypoint extends FlameBlocGame with HasTappables, HasHoverables {
   @override
   void render(Canvas canvas) {
     backgroundLayer?.render(canvas);
+
+    final fpsCount = fps(120); // The average FPS for the last 120 microseconds.
+    fpsTextConfig.render(canvas, fpsCount.toString(), Vector2(0, 50));
     super.render(canvas);
   }
 }

@@ -1,0 +1,80 @@
+name: Build Server Docker Image and Publish
+
+on:
+  push:
+    branches:
+      - main
+
+
+jobs:
+  check-change:
+    name: Check files for server
+    outputs:
+      run_job: ${{ steps.check_files.outputs.run_job }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 2
+
+      - name: check modified files
+        id: check_files
+        run: |
+          echo "=============== list modified files ==============="
+          git diff --name-only HEAD^ HEAD
+          
+          echo "========== check paths of modified files =========="
+          git diff --name-only HEAD^ HEAD > files.txt
+          while IFS= read -r file
+          do
+            echo $file
+            if [[ $file != flutter-webrtc-server/** ]]; then
+              echo "This modified file is not under the 'data' folder."
+              echo "::set-output name=run_job::false"
+            else
+              echo "::set-output name=run_job::true"
+              break
+            fi
+          done < files.txt
+  build:
+    needs: check-change
+    if: needs.check-change.outputs.run_job == 'true'
+    runs-on: ubuntu-18.04
+    env:
+      DOCKER_REGISTRY: ghcr.io
+      DOCKER_IMAGE: niggelgame/flutter-games-server
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ GITHUB_TOKEN }}
+      DOCKER_TARGET_PLATFORM: linux/x86_64
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # https://github.com/docker/setup-qemu-action
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+      # https://github.com/docker/setup-buildx-action
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Prepare      
+        if: success()      
+        id: prepare      
+        run: |        
+          echo ::set-output name=docker_platform::${DOCKER_TARGET_PLATFORM}        
+          echo ::set-output name=docker_image::${DOCKER_REGISTRY}/${DOCKER_IMAGE}        
+          echo ::set-output name=version::${GITHUB_RUN_NUMBER}  
+      - name: Docker Login      
+        if: success()      
+        run: |        
+          echo "${DOCKER_PASSWORD}" | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin
+      - name: Push Image
+        if: success()      
+        run: |        
+          cd flutter-webrtc-server
+          docker buildx build \
+                  --platform ${{ steps.prepare.outputs.docker_platform }} \
+                  --tag ${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }} \
+                  --file ./Dockerfile \
+                  --output type=image,push=true .
