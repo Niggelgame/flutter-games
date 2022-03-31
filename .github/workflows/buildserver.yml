@@ -21,6 +21,12 @@ jobs:
       - name: check modified files
         id: check_files
         run: |
+          echo "Check for force rebuild"
+          if [[ "${{github.event.head_commit.message}}" == *"[build]"* ]]; then
+            echo "Force rebuild"
+            echo "::set-output name=run_job::true"
+            exit 0
+          fi
           echo "=============== list modified files ==============="
           git diff --name-only HEAD^ HEAD
           
