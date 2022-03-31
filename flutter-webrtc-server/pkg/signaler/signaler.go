@@ -83,11 +83,24 @@ func (s *Signaler) HandleTurnServerCredentials(writer http.ResponseWriter, reque
 		return
 	}
 	logger.Debugf("%v", params)
-	service := params["service"][0]
+
+	serviceParam := params["service"]
+	if len(serviceParam) < 1 {
+		_ = json.NewEncoder(writer).Encode(Error{Request: "HandleTurnServerCredentials", Reason: packets.InvalidParams})
+		return
+	}
+	service := serviceParam[0]
 	if service != "turn" {
 		return
 	}
-	username := params["username"][0]
+
+	usernameParam := params["username"]
+	if len(usernameParam) < 1 {
+		_ = json.NewEncoder(writer).Encode(Error{Request: "HandleTurnServerCredentials", Reason: packets.InvalidParams})
+		return
+	}
+	username := usernameParam[0]
+
 	timestamp := time.Now().Unix()
 	turnUsername := fmt.Sprintf("%d:%s", timestamp, username)
 	hmac := hmac.New(sha1.New, []byte(sharedKey))
@@ -116,7 +129,13 @@ func (s *Signaler) HandleSessionCheck(writer http.ResponseWriter, request *http.
 		_ = json.NewEncoder(writer).Encode(Error{Request: "HandleSessionCheck", Reason: packets.InvalidParams})
 	}
 
-	sessionCode := params["code"][0]
+	codeParam := params["code"]
+
+	if len(codeParam) < 1 {
+		_ = json.NewEncoder(writer).Encode(Error{Request: "HandleSessionCheck", Reason: packets.InvalidParams})
+		return
+	}
+	sessionCode := codeParam[0]
 
 	serverPeer, valid := s.serverSessions[sessionCode]
 	if !valid {
