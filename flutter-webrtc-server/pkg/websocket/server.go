@@ -54,11 +54,11 @@ func (server *Server) handleWebSocketRequest(writer http.ResponseWriter, request
 	//responseHeader.Add("Sec-WebSocket-Protocol", "protoo")
 	socket, err := server.upgrader.Upgrade(writer, request, responseHeader)
 	if err != nil {
-		_ = json.NewEncoder(writer).Encode(map[string]string{
+		err = json.NewEncoder(writer).Encode(map[string]string{
 			"request": "websocket connection",
 			"error":   "invalid protocol",
 		})
-		logger.Panicf("%v", err)
+		return
 	}
 	wsTransport := NewWebSocketConn(socket)
 	server.handleWebSocket(wsTransport, request)
