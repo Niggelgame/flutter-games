@@ -34,7 +34,6 @@ class ClientWebRTCHandler<PlayerGameEvent extends Serializable,
 
   _createSession(
       PassThroughPacket<OfferAnswerPacket> initialOfferAnswerPacket) async {
-    // Set empty session id, since it is completely irrelevant for us
     session = Session(pid: initialOfferAnswerPacket.from);
 
     RTCPeerConnection pc = await createPeerConnection({

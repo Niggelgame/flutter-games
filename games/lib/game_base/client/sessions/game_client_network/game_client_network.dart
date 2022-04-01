@@ -39,6 +39,9 @@ class GameClientNetwork<
 
   Future<void> init(AppConfig appConfig, String externalSessionCode, String name) async {
     final sessionData = await _apiClient.getSessionData(externalSessionCode);
+    final turnCredentials = await _apiClient.getTurnCredentials();
+
+
     _game = gameFactory(sessionData.gameConfig);
 
     assert(sessionData.game == _game.name);

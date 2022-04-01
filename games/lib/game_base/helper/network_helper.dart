@@ -5,10 +5,15 @@ part 'network_helper.g.dart';
 
 const defaultIceServer = {
   'iceServers': [
-    {'urls': [
-          'stun:stun1.l.google.com:19302',
-          'stun:stun2.l.google.com:19302',
-        ],},
+    {
+      'urls': [
+        'stun:stun1.l.google.com:19302',
+        'stun:stun2.l.google.com:19302',
+        'turn:turn01.hubl.in?transport=udp',
+        'turn:turn02.hubl.in?transport=tcp',
+      ],
+    },
+
     /*
        * turn server configuration example.
       {
@@ -21,19 +26,19 @@ const defaultIceServer = {
 };
 
 final Map<String, dynamic> peerConfig = {
-    'mandatory': {},
-    'optional': [
-      {'DtlsSrtpKeyAgreement': true},
-    ]
-  };
+  'mandatory': {},
+  'optional': [
+    {'DtlsSrtpKeyAgreement': true},
+  ]
+};
 
-  final Map<String, dynamic> dcConstraints = {
-    'mandatory': {
-      'OfferToReceiveAudio': false,
-      'OfferToReceiveVideo': false,
-    },
-    'optional': [],
-  };
+final Map<String, dynamic> dcConstraints = {
+  'mandatory': {
+    'OfferToReceiveAudio': false,
+    'OfferToReceiveVideo': false,
+  },
+  'optional': [],
+};
 
 class Session {
   Session({required this.pid});
@@ -54,7 +59,8 @@ class CloseData {
 
   CloseData(this.reason);
 
-  factory CloseData.fromJson(Map<String, dynamic> json) => _$CloseDataFromJson(json);
+  factory CloseData.fromJson(Map<String, dynamic> json) =>
+      _$CloseDataFromJson(json);
 
   Map<String, dynamic> toJson() => _$CloseDataToJson(this);
 }

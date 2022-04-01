@@ -18,9 +18,9 @@ class AppConfig {
 }
 
 final defaultConfig = AppConfig(
-  secureTraffic: false,
+  secureTraffic: true,
   apiHost: 'server.games.kedil.de',
-  apiPort: 80,
+  apiPort: 443,
   websocketPath: '/ws',
   turnPath: '/api/turn',
   checkCodePath: '/api/check',
