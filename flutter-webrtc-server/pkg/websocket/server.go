@@ -18,13 +18,13 @@ func DefaultConfig() ServerConfig {
 		Host:           ":8086",
 		WebSocketPath:  "/ws",
 		TurnServerPath: "/api/turn",
-		CheckCodePath: "/api/check",
+		CheckCodePath:  "/api/check",
 	}
 }
 
 type Server struct {
-	handleWebSocket  func(ws *WebSocketConn, request *http.Request)
-	handleTurnServer func(writer http.ResponseWriter, request *http.Request)
+	handleWebSocket   func(ws *WebSocketConn, request *http.Request)
+	handleTurnServer  func(writer http.ResponseWriter, request *http.Request)
 	handleCodeChecker func(writer http.ResponseWriter, request *http.Request)
 	// Websocket upgrader
 	upgrader websocket.Upgrader
@@ -35,8 +35,8 @@ func NewWebSocketServer(
 	turnServerHandler func(writer http.ResponseWriter, request *http.Request),
 	handleCodeChecker func(writer http.ResponseWriter, request *http.Request)) *Server {
 	var server = &Server{
-		handleWebSocket:  wsHandler,
-		handleTurnServer: turnServerHandler,
+		handleWebSocket:   wsHandler,
+		handleTurnServer:  turnServerHandler,
 		handleCodeChecker: handleCodeChecker,
 	}
 	server.upgrader = websocket.Upgrader{
@@ -49,6 +49,7 @@ func NewWebSocketServer(
 
 func (server *Server) handleWebSocketRequest(writer http.ResponseWriter, request *http.Request) {
 	responseHeader := http.Header{}
+	logger.Infof("WebSocket Request received")
 	//responseHeader.Add("Sec-WebSocket-Protocol", "protoo")
 	socket, err := server.upgrader.Upgrade(writer, request, responseHeader)
 	if err != nil {
