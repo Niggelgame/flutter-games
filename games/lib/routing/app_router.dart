@@ -1,14 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:games/base_pages/home/homepage.dart';
-import 'package:games/game_base/client/game_client.dart';
-import 'package:games/game_base/server/game_server.dart';
 import 'package:games/games/test/testpage.dart';
-import 'package:games/games/uno/game/player_event.dart';
-import 'package:games/games/uno/game/server_event.dart';
-import 'package:games/games/uno/game/uno_game.dart';
-import 'package:games/games/uno/presentation/screens/uno_game_page.dart';
-import 'package:games/games/uno/presentation/screens/uno_home_page.dart';
+import 'package:games/games/uno/uno_game_page.dart';
+import 'package:games/games/uno/uno_home_page.dart';
 
 part 'app_router.gr.dart';
 

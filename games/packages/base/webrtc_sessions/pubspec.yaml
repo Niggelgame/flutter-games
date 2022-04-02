@@ -1,18 +1,36 @@
-name: game_base
-description: A new Flutter package project.
+name: webrtc_sessions
+description: Session implementation for WebRTC
 version: 0.0.1
 homepage: github.com/niggelgame/web-games
 publish_to: none
 
 environment:
   sdk: ">=2.16.2 <3.0.0"
+  flutter: ">=1.17.0"
 
 dependencies:
-  meta: ^1.7.0
+  flutter:
+    sdk: flutter
+  # signaling
+  web_socket_channel: ^2.1.0
+  http: ^0.13.4
+
+  # p2p connections
+  flutter_webrtc: ^0.8.5
+
+  # package transport
+  json_annotation: ^4.4.0
+
+  game_base:
+    path: ../game_base
 
 dev_dependencies:
-  test: ^1.20.2
-  lints: ^1.0.1
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^1.0.0
+
+  json_serializable: ^6.1.5
+  build_runner: ^2.1.8
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

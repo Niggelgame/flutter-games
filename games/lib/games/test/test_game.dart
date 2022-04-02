@@ -1,6 +1,6 @@
-import 'package:games/game_base/helper/serializable.dart';
-import 'package:games/game_base/common/game.dart';
-import 'package:games/game_base/server/player.dart';
+
+
+import 'package:game_base/game_base.dart';
 
 class TestGameEvent extends Serializable {
   int id;
@@ -25,7 +25,7 @@ class TestGame extends Game<TestGameEvent, TestGameEvent> {
   }
 
   @override
-  void onPlayerGameEvent(Player<TestGameEvent, TestGameEvent, Game<TestGameEvent, TestGameEvent>> player, TestGameEvent event) {
+  void onPlayerGameEvent(player, event) {
     print('onPlayerGameEvent: $event');
     player.send(event);
   }
@@ -37,7 +37,9 @@ class TestGame extends Game<TestGameEvent, TestGameEvent> {
   TestGameEvent serverGameEventFromJson(Map<String, dynamic> json) => TestGameEvent.fromJson(json);
 
   @override
-  String get name => "TestGame";
+  String get name => gameName;
+
+  static String get gameName => "TestGame";
 
   @override
   Map<String, dynamic> get config => {};
@@ -45,4 +47,7 @@ class TestGame extends Game<TestGameEvent, TestGameEvent> {
   @override
   void close() {
   }
+
+  @override
+  Map<String, dynamic> get configAsJson => {};
 }

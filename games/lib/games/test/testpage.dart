@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:games/config/app_config.dart';
-import 'package:games/game_base/client/game_client.dart';
-import 'package:games/game_base/client/sessions/game_client_local.dart';
-import 'package:games/game_base/client/sessions/game_client_network/game_client_network.dart';
-import 'package:games/game_base/server/game_server.dart';
+import 'package:game_base/game_base.dart';
 import 'package:games/games/test/test_game.dart';
+import 'package:local_sessions/local_sessions.dart';
+import 'package:webrtc_sessions/webrtc_sessions.dart';
 
 class TestServerPage extends StatefulWidget {
   const TestServerPage({Key? key}) : super(key: key);
@@ -14,24 +12,26 @@ class TestServerPage extends StatefulWidget {
 }
 
 class _TestServerPageState extends State<TestServerPage> {
-  GameClient<TestGameEvent, TestGameEvent, TestGame>? client;
+  GameClient<TestGameEvent, TestGameEvent>? client;
 
-  GameServer<TestGameEvent, TestGameEvent, TestGame>? server;
+  GameServer<TestGameEvent, TestGameEvent>? server;
 
   String gameCode = '';
   String lastReceivedEventId = '';
 
-  void _startGameStuff() {
-    server = GameServer(TestGame(), defaultConfig);
-    server!.addListener(() {
+  void _startGameStuff() async {
+    server = GameServer(TestGame(), (server) {
+      return NetworkSessionHandler(server: server, apiConfig: defaultConfig, playerGameEventFromJson: TestGameEvent.fromJson);
+    });
+    await server!.sessionHandler.init(onSessionCode: (sessionCode) {
       setState(() {
-        gameCode = server!.gameCode ?? '';
+        gameCode = sessionCode;
       });
     });
+   
 
-    final localClient = GameClientLocal<TestGameEvent, TestGameEvent, TestGame>(
-        (_) => TestGame());
-    server!.sessionHandler.addSession(localClient.sessionHandler, 'Host', true);
+    final localClient = GameClientLocal<TestGameEvent, TestGameEvent>(name: 'idiot', isAdmin: true);
+    server!.sessionHandler.insertSession(localClient.sessionHandler);
     client = localClient;
     client!.eventStream.listen((event) {
       setState(() {
@@ -84,7 +84,7 @@ class TestNetworkClientPage extends StatefulWidget {
 class _TestNetworkClientPageState extends State<TestNetworkClientPage> {
   late final TextEditingController sessionCodeController;
 
-  GameClient<TestGameEvent, TestGameEvent, TestGame>? client;
+  GameClient<TestGameEvent, TestGameEvent>? client;
   String lastReceivedEventId = '';
 
   @override
@@ -110,10 +110,12 @@ class _TestNetworkClientPageState extends State<TestNetworkClientPage> {
               onPressed: () {
                 try {
                   client =
-                      GameClientNetwork<TestGameEvent, TestGameEvent, TestGame>(
-                          (_) => TestGame(),
-                          defaultConfig,
-                          sessionCodeController.text, 'user');
+                      GameClientNetwork<TestGameEvent, TestGameEvent>(
+                          apiConfig: defaultConfig,
+                          externalSessionCode: sessionCodeController.text,
+                          gameName: TestGame.gameName,
+                          name: 'user',
+                          serverEventFromJson: TestGameEvent.fromJson);
 
                   client!.eventStream.listen((event) {
                     setState(() {

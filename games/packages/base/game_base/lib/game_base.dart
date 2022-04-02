@@ -1,7 +1,9 @@
 library game_base;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/game.dart';
+export 'src/client/game_client.dart';
+export 'src/helper/serializable.dart';
+export 'src/server/game_server.dart';
+export 'src/server/sessions/session_handler.dart';
+export 'src/server/sessions/single_session_handler.dart';
+export 'src/utils/name_generator.dart';

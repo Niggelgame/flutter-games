@@ -34,13 +34,14 @@ class _$AppRouter extends RootStackRouter {
           routeData: routeData, child: const UnoHomePage());
     },
     UnoJoinGameRoute.name: (routeData) {
-      final args = routeData.argsAs<UnoJoinGameRouteArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<UnoJoinGameRouteArgs>(
+          orElse: () =>
+              UnoJoinGameRouteArgs(sessionCode: pathParams.getString('id')));
       return MaterialPageX<dynamic>(
           routeData: routeData,
           child: UnoJoinGamePage(
-              key: args.key,
-              sessionCode: args.sessionCode,
-              gameClient: args.gameClient));
+              key: args.key, sessionCode: args.sessionCode, name: args.name));
     }
   };
 
@@ -90,31 +91,27 @@ class UnoHomeRoute extends PageRouteInfo<void> {
 /// generated route for
 /// [UnoJoinGamePage]
 class UnoJoinGameRoute extends PageRouteInfo<UnoJoinGameRouteArgs> {
-  UnoJoinGameRoute(
-      {Key? key,
-      required String sessionCode,
-      required GameClient<UnoPlayerEvent, UnoServerEvent, UnoGame> gameClient})
+  UnoJoinGameRoute({Key? key, required String sessionCode, String? name})
       : super(UnoJoinGameRoute.name,
             path: '/uno/join/:id',
             args: UnoJoinGameRouteArgs(
-                key: key, sessionCode: sessionCode, gameClient: gameClient),
+                key: key, sessionCode: sessionCode, name: name),
             rawPathParams: {'id': sessionCode});
 
   static const String name = 'UnoJoinGameRoute';
 }
 
 class UnoJoinGameRouteArgs {
-  const UnoJoinGameRouteArgs(
-      {this.key, required this.sessionCode, required this.gameClient});
+  const UnoJoinGameRouteArgs({this.key, required this.sessionCode, this.name});
 
   final Key? key;
 
   final String sessionCode;
 
-  final GameClient<UnoPlayerEvent, UnoServerEvent, UnoGame> gameClient;
+  final String? name;
 
   @override
   String toString() {
-    return 'UnoJoinGameRouteArgs{key: $key, sessionCode: $sessionCode, gameClient: $gameClient}';
+    return 'UnoJoinGameRouteArgs{key: $key, sessionCode: $sessionCode, name: $name}';
   }
 }

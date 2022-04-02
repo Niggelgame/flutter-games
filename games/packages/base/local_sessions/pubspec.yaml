@@ -1,4 +1,4 @@
-name: game_base
+name: local_sessions
 description: A new Flutter package project.
 version: 0.0.1
 homepage: github.com/niggelgame/web-games
@@ -9,6 +9,9 @@ environment:
 
 dependencies:
   meta: ^1.7.0
+
+  game_base:
+    path: ../game_base
 
 dev_dependencies:
   test: ^1.20.2
