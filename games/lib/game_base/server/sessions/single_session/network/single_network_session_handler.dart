@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:games/game_base/common/network/api_client.dart';
 import 'package:games/game_base/common/network/websocket_packet.dart';
 import 'package:games/game_base/helper/network_helper.dart';
 import 'package:games/game_base/helper/serializable.dart';
@@ -12,7 +13,8 @@ import 'package:flutter_webrtc/flutter_webrtc.dart';
 class SingleNetworkSessionHandler<PlayerGameEvent extends Serializable,
         ServerGameEvent extends Serializable>
     extends SingleSessionHandler<PlayerGameEvent, ServerGameEvent> {
-  final Map<String, dynamic> _iceServers;
+      final ApiClient _apiClient;
+  Map<String, dynamic> _iceServers;
   final VoidCallback channelConnected;
   final ValueChanged<SessionCandidate> onCandidate;
   final ValueChanged<OfferAnswerPacket> onOffer;
@@ -29,6 +31,7 @@ class SingleNetworkSessionHandler<PlayerGameEvent extends Serializable,
   SingleNetworkSessionHandler(
     String selfId,
     String peerId,
+    this._apiClient,
     this._iceServers, {
     required this.channelConnected,
     required this.playerGameEventFromMap,
@@ -40,7 +43,28 @@ class SingleNetworkSessionHandler<PlayerGameEvent extends Serializable,
   }
 
   _createSession(String peerId) async {
+    // Has to be initialized first play to initialize `late` variable
     session = Session(pid: peerId);
+
+    try {
+      final turnCredentials = await _apiClient.getTurnCredentials();
+      if(turnCredentials.uris.isEmpty) {
+        throw Exception('No turn credentials');
+      }
+
+      _iceServers = {
+          'iceServers': [
+            {
+              'urls': turnCredentials.uris[0],
+              'username': turnCredentials.username,
+              'credential': turnCredentials.password,
+              'ttl': turnCredentials.ttl,
+            },
+          ]
+        };
+    } catch (e) {
+      debugPrint('Error getting turn credentials: $e');
+    }
 
     RTCPeerConnection pc = await createPeerConnection({
       ..._iceServers,

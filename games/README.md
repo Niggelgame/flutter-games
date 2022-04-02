@@ -3,6 +3,7 @@
 ## TODOS
 
 - Connection Exception Handling (WebSocket connection lost / not creatable, Player Leaving must stop connection, ...)
+- Correct Uno Game Implementation (as a module)
 
 ## Getting Started
 

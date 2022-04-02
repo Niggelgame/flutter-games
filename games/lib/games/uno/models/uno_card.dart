@@ -11,7 +11,6 @@ enum UnoCardColor {
 }
 
 enum UnoCardType {
-  zero,
   one,
   two,
   three,

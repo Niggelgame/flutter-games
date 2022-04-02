@@ -60,8 +60,6 @@ Vector2 _getCardOffset(UnoCard? card) {
       return Vector2(2, _getCardColorOffset(card));
     case UnoCardType.one:
       return Vector2(1, _getCardColorOffset(card));
-    case UnoCardType.zero:
-      return Vector2(0, _getCardColorOffset(card));
   }
 }
 

@@ -56,11 +56,23 @@ class ApiClient {
     final username = getRandomString(16);
     final password = getRandomString(16);
 
-    final requestUri = _buildUri(_config.turnPath, queryParameters: {
+    /*final requestUri = _buildUri(_config.turnPath, queryParameters: {
       'username': username,
       'password': password,
       'service': 'turn'
-    });
+    });*/
+
+    final requestUri = Uri(
+      scheme: 'https',
+      host: 'demo.cloudwebrtc.com',
+      port: 8086,
+      path: '/api/turn',
+      queryParameters: {
+        'username': username,
+        'password': password,
+        'service': 'turn'
+      },
+    );
 
     final res = await http.get(requestUri);
     return TurnCredentials.fromJson(jsonDecode(res.body));

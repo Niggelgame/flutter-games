@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:games/config/app_config.dart';
 import 'package:games/game_base/client/client_state.dart';
 import 'package:games/game_base/client/game_client.dart';
@@ -24,6 +25,8 @@ class GameClientNetwork<
   late Game<PlayerGameEvent, ServerGameEvent> _game;
   ClientWebRTCHandler? _webRTCHandler;
 
+  Map<String, dynamic> _iceServers = defaultIceServer;
+
   final List<PlayerGameEvent> _playerEventQueue = [];
 
   String _selfId = getRandomString(16);
@@ -39,7 +42,27 @@ class GameClientNetwork<
 
   Future<void> init(AppConfig appConfig, String externalSessionCode, String name) async {
     final sessionData = await _apiClient.getSessionData(externalSessionCode);
-    final turnCredentials = await _apiClient.getTurnCredentials();
+
+    try {
+      final turnCredentials = await _apiClient.getTurnCredentials();
+      if(turnCredentials.uris.isEmpty) {
+        throw Exception('No turn credentials');
+      }
+
+      _iceServers = {
+          'iceServers': [
+            {
+              'urls': turnCredentials.uris[0],
+              'username': turnCredentials.username,
+              'credential': turnCredentials.password,
+              'ttl': turnCredentials.ttl,
+            },
+          ]
+        };
+    } catch (e) {
+      debugPrint('Error getting turn credentials: $e');
+    }
+    
 
 
     _game = gameFactory(sessionData.gameConfig);
@@ -89,7 +112,7 @@ class GameClientNetwork<
       onOffer: (offer) {
         _webRTCHandler = ClientWebRTCHandler<PlayerGameEvent, ServerGameEvent>(
           serverGameEventFromMap: _game.serverGameEventFromJson,
-          iceServers: defaultIceServer,
+          iceServers: _iceServers,
           channelConnected: () {
             state = ClientState.lobby;
             for (var queueEvent in _playerEventQueue) {
