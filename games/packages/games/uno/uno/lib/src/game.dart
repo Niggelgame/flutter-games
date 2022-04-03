@@ -28,17 +28,18 @@ class Player {
   
   bool _saidUno = false;
   bool get saidUno => _saidUno;
-  
   @internal
   set saidUno(v) => _saidUno = v;
 
   /// Function called if this Player was skipped.
   void onSkip() {}
 
-  /// Function called when the player automatically draws cards.
-  void onCardsDrawn(int amount) {}
+  /// Function called when the player draws cards. 
+  /// 
+  /// [Player.deck] will already be updated.
+  void onCardsDrawn(int amount, List<Card> cards) {}
 
-  /// Function called when the player forgot to say uno in [ŋame].
+  /// Function called when the player forgot to say uno in [game].
   void forgotUno(Game game) {}
 
   /// Function called if the player won [place].
@@ -48,15 +49,17 @@ class Player {
   void refreshCards() {}
 
   /// Makes the player say uno.
+  @mustCallSuper
   void uno() {
     _saidUno = true;
   }
 
   /// Plays [card] in [game] with a chosen [color] if needed.
   ///
-  /// Throws an [PlayerDoesNotHaveCardException] if the player doesn't have an instance of
+  /// Throws a [PlayerDoesNotHaveCardException] if the player doesn't have an instance of
   /// [card] in his deck.
-  /// Throws an [CardDoesNotMatchException] if the card doesn't match the top card
+  /// 
+  /// Throws a [CardDoesNotMatchException] if the card doesn't match the top card
   void playCard(Game game, Card card, {UnoColor color = UnoColor.blue}) {
     if (!deck.remove(card)) {
       throw PlayerDoesNotHaveCardException(card);

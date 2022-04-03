@@ -15,7 +15,7 @@ class UnoPlayerEvent extends Serializable with _$UnoPlayerEvent {
   factory UnoPlayerEvent.skip() = UnoPlayerSkipEvent;
 
   factory UnoPlayerEvent.start() = UnoPlayerStartEvent;
-  // factory UnoPlayerEvent.voteRematch() = UnoPlayerVoteRematchEvent;
+  factory UnoPlayerEvent.voteRematch() = UnoPlayerVoteRematchEvent;
   factory UnoPlayerEvent.syncRequest() = UnoPlayerSyncRequestEvent;
 
   factory UnoPlayerEvent.fromJson(Map<String, dynamic> json) =>

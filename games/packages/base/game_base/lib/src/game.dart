@@ -29,10 +29,13 @@ abstract class Game<PlayerGameEvent extends Serializable, ServerGameEvent extend
   bool allowsMorePlayers();
 
   /// Event handler called when [player] sends an [event].
-  void onPlayerGameEvent(SingleSessionHandler<PlayerGameEvent, ServerGameEvent> player, PlayerGameEvent event);
+  void onPlayerGameEvent(SingleSessionHandler<PlayerGameEvent, ServerGameEvent> player, PlayerGameEvent event) {}
 
-  // After calling this method, no more events can be send to the players
-  void close();
+  /// After this method was called, no more events can be send to the players
+  /// 
+  /// Use this to dispose any listeners created in the game
+  @mustCallSuper
+  void close() {}
 
   /// Game config send to server.
   Map<String, dynamic> get configAsJson;

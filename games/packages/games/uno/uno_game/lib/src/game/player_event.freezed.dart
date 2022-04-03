@@ -28,6 +28,8 @@ UnoPlayerEvent _$UnoPlayerEventFromJson(Map<String, dynamic> json) {
       return UnoPlayerSkipEvent.fromJson(json);
     case 'start':
       return UnoPlayerStartEvent.fromJson(json);
+    case 'voteRematch':
+      return UnoPlayerVoteRematchEvent.fromJson(json);
     case 'syncRequest':
       return UnoPlayerSyncRequestEvent.fromJson(json);
 
@@ -69,6 +71,10 @@ class _$UnoPlayerEventTearOff {
     return UnoPlayerStartEvent();
   }
 
+  UnoPlayerVoteRematchEvent voteRematch() {
+    return UnoPlayerVoteRematchEvent();
+  }
+
   UnoPlayerSyncRequestEvent syncRequest() {
     return UnoPlayerSyncRequestEvent();
   }
@@ -91,6 +97,7 @@ mixin _$UnoPlayerEvent {
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) =>
       throw _privateConstructorUsedError;
@@ -102,6 +109,7 @@ mixin _$UnoPlayerEvent {
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) =>
       throw _privateConstructorUsedError;
@@ -113,6 +121,7 @@ mixin _$UnoPlayerEvent {
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) =>
@@ -125,6 +134,7 @@ mixin _$UnoPlayerEvent {
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) =>
       throw _privateConstructorUsedError;
@@ -136,6 +146,7 @@ mixin _$UnoPlayerEvent {
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) =>
       throw _privateConstructorUsedError;
@@ -147,6 +158,7 @@ mixin _$UnoPlayerEvent {
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) =>
@@ -232,6 +244,7 @@ class _$UnoPlayerDrawCardEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return drawCard();
@@ -246,6 +259,7 @@ class _$UnoPlayerDrawCardEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return drawCard?.call();
@@ -260,6 +274,7 @@ class _$UnoPlayerDrawCardEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -278,6 +293,7 @@ class _$UnoPlayerDrawCardEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return drawCard(this);
@@ -292,6 +308,7 @@ class _$UnoPlayerDrawCardEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return drawCard?.call(this);
@@ -306,6 +323,7 @@ class _$UnoPlayerDrawCardEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {
@@ -417,6 +435,7 @@ class _$UnoPlayerPlayCardEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return playCard(card);
@@ -431,6 +450,7 @@ class _$UnoPlayerPlayCardEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return playCard?.call(card);
@@ -445,6 +465,7 @@ class _$UnoPlayerPlayCardEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -463,6 +484,7 @@ class _$UnoPlayerPlayCardEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return playCard(this);
@@ -477,6 +499,7 @@ class _$UnoPlayerPlayCardEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return playCard?.call(this);
@@ -491,6 +514,7 @@ class _$UnoPlayerPlayCardEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {
@@ -608,6 +632,7 @@ class _$UnoPlayerSelectColorEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return selectColor(color);
@@ -622,6 +647,7 @@ class _$UnoPlayerSelectColorEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return selectColor?.call(color);
@@ -636,6 +662,7 @@ class _$UnoPlayerSelectColorEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -654,6 +681,7 @@ class _$UnoPlayerSelectColorEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return selectColor(this);
@@ -668,6 +696,7 @@ class _$UnoPlayerSelectColorEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return selectColor?.call(this);
@@ -682,6 +711,7 @@ class _$UnoPlayerSelectColorEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {
@@ -771,6 +801,7 @@ class _$UnoPlayerFlagUnoEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return flagUno();
@@ -785,6 +816,7 @@ class _$UnoPlayerFlagUnoEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return flagUno?.call();
@@ -799,6 +831,7 @@ class _$UnoPlayerFlagUnoEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -817,6 +850,7 @@ class _$UnoPlayerFlagUnoEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return flagUno(this);
@@ -831,6 +865,7 @@ class _$UnoPlayerFlagUnoEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return flagUno?.call(this);
@@ -845,6 +880,7 @@ class _$UnoPlayerFlagUnoEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {
@@ -928,6 +964,7 @@ class _$UnoPlayerSkipEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return skip();
@@ -942,6 +979,7 @@ class _$UnoPlayerSkipEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return skip?.call();
@@ -956,6 +994,7 @@ class _$UnoPlayerSkipEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -974,6 +1013,7 @@ class _$UnoPlayerSkipEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return skip(this);
@@ -988,6 +1028,7 @@ class _$UnoPlayerSkipEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return skip?.call(this);
@@ -1002,6 +1043,7 @@ class _$UnoPlayerSkipEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {
@@ -1085,6 +1127,7 @@ class _$UnoPlayerStartEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return start();
@@ -1099,6 +1142,7 @@ class _$UnoPlayerStartEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return start?.call();
@@ -1113,6 +1157,7 @@ class _$UnoPlayerStartEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -1131,6 +1176,7 @@ class _$UnoPlayerStartEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return start(this);
@@ -1145,6 +1191,7 @@ class _$UnoPlayerStartEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return start?.call(this);
@@ -1159,6 +1206,7 @@ class _$UnoPlayerStartEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {
@@ -1179,6 +1227,171 @@ abstract class UnoPlayerStartEvent implements UnoPlayerEvent {
 
   factory UnoPlayerStartEvent.fromJson(Map<String, dynamic> json) =
       _$UnoPlayerStartEvent.fromJson;
+}
+
+/// @nodoc
+abstract class $UnoPlayerVoteRematchEventCopyWith<$Res> {
+  factory $UnoPlayerVoteRematchEventCopyWith(UnoPlayerVoteRematchEvent value,
+          $Res Function(UnoPlayerVoteRematchEvent) then) =
+      _$UnoPlayerVoteRematchEventCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class _$UnoPlayerVoteRematchEventCopyWithImpl<$Res>
+    extends _$UnoPlayerEventCopyWithImpl<$Res>
+    implements $UnoPlayerVoteRematchEventCopyWith<$Res> {
+  _$UnoPlayerVoteRematchEventCopyWithImpl(UnoPlayerVoteRematchEvent _value,
+      $Res Function(UnoPlayerVoteRematchEvent) _then)
+      : super(_value, (v) => _then(v as UnoPlayerVoteRematchEvent));
+
+  @override
+  UnoPlayerVoteRematchEvent get _value =>
+      super._value as UnoPlayerVoteRematchEvent;
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UnoPlayerVoteRematchEvent
+    with DiagnosticableTreeMixin
+    implements UnoPlayerVoteRematchEvent {
+  _$UnoPlayerVoteRematchEvent({String? $type}) : $type = $type ?? 'voteRematch';
+
+  factory _$UnoPlayerVoteRematchEvent.fromJson(Map<String, dynamic> json) =>
+      _$$UnoPlayerVoteRematchEventFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UnoPlayerEvent.voteRematch()';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties..add(DiagnosticsProperty('type', 'UnoPlayerEvent.voteRematch'));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is UnoPlayerVoteRematchEvent);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() drawCard,
+    required TResult Function(UnoCard card) playCard,
+    required TResult Function(UnoCardColor color) selectColor,
+    required TResult Function() flagUno,
+    required TResult Function() skip,
+    required TResult Function() start,
+    required TResult Function() voteRematch,
+    required TResult Function() syncRequest,
+  }) {
+    return voteRematch();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? drawCard,
+    TResult Function(UnoCard card)? playCard,
+    TResult Function(UnoCardColor color)? selectColor,
+    TResult Function()? flagUno,
+    TResult Function()? skip,
+    TResult Function()? start,
+    TResult Function()? voteRematch,
+    TResult Function()? syncRequest,
+  }) {
+    return voteRematch?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? drawCard,
+    TResult Function(UnoCard card)? playCard,
+    TResult Function(UnoCardColor color)? selectColor,
+    TResult Function()? flagUno,
+    TResult Function()? skip,
+    TResult Function()? start,
+    TResult Function()? voteRematch,
+    TResult Function()? syncRequest,
+    required TResult orElse(),
+  }) {
+    if (voteRematch != null) {
+      return voteRematch();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(UnoPlayerDrawCardEvent value) drawCard,
+    required TResult Function(UnoPlayerPlayCardEvent value) playCard,
+    required TResult Function(UnoPlayerSelectColorEvent value) selectColor,
+    required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
+    required TResult Function(UnoPlayerSkipEvent value) skip,
+    required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
+    required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
+  }) {
+    return voteRematch(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(UnoPlayerDrawCardEvent value)? drawCard,
+    TResult Function(UnoPlayerPlayCardEvent value)? playCard,
+    TResult Function(UnoPlayerSelectColorEvent value)? selectColor,
+    TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
+    TResult Function(UnoPlayerSkipEvent value)? skip,
+    TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
+    TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
+  }) {
+    return voteRematch?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(UnoPlayerDrawCardEvent value)? drawCard,
+    TResult Function(UnoPlayerPlayCardEvent value)? playCard,
+    TResult Function(UnoPlayerSelectColorEvent value)? selectColor,
+    TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
+    TResult Function(UnoPlayerSkipEvent value)? skip,
+    TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
+    TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
+    required TResult orElse(),
+  }) {
+    if (voteRematch != null) {
+      return voteRematch(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UnoPlayerVoteRematchEventToJson(this);
+  }
+}
+
+abstract class UnoPlayerVoteRematchEvent implements UnoPlayerEvent {
+  factory UnoPlayerVoteRematchEvent() = _$UnoPlayerVoteRematchEvent;
+
+  factory UnoPlayerVoteRematchEvent.fromJson(Map<String, dynamic> json) =
+      _$UnoPlayerVoteRematchEvent.fromJson;
 }
 
 /// @nodoc
@@ -1244,6 +1457,7 @@ class _$UnoPlayerSyncRequestEvent
     required TResult Function() flagUno,
     required TResult Function() skip,
     required TResult Function() start,
+    required TResult Function() voteRematch,
     required TResult Function() syncRequest,
   }) {
     return syncRequest();
@@ -1258,6 +1472,7 @@ class _$UnoPlayerSyncRequestEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
   }) {
     return syncRequest?.call();
@@ -1272,6 +1487,7 @@ class _$UnoPlayerSyncRequestEvent
     TResult Function()? flagUno,
     TResult Function()? skip,
     TResult Function()? start,
+    TResult Function()? voteRematch,
     TResult Function()? syncRequest,
     required TResult orElse(),
   }) {
@@ -1290,6 +1506,7 @@ class _$UnoPlayerSyncRequestEvent
     required TResult Function(UnoPlayerFlagUnoEvent value) flagUno,
     required TResult Function(UnoPlayerSkipEvent value) skip,
     required TResult Function(UnoPlayerStartEvent value) start,
+    required TResult Function(UnoPlayerVoteRematchEvent value) voteRematch,
     required TResult Function(UnoPlayerSyncRequestEvent value) syncRequest,
   }) {
     return syncRequest(this);
@@ -1304,6 +1521,7 @@ class _$UnoPlayerSyncRequestEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
   }) {
     return syncRequest?.call(this);
@@ -1318,6 +1536,7 @@ class _$UnoPlayerSyncRequestEvent
     TResult Function(UnoPlayerFlagUnoEvent value)? flagUno,
     TResult Function(UnoPlayerSkipEvent value)? skip,
     TResult Function(UnoPlayerStartEvent value)? start,
+    TResult Function(UnoPlayerVoteRematchEvent value)? voteRematch,
     TResult Function(UnoPlayerSyncRequestEvent value)? syncRequest,
     required TResult orElse(),
   }) {

@@ -35,4 +35,22 @@ class GameConfig {
     this.initialCardCount = 7,
     this.maxPlayerCount = 8,
   });
+
+  Map<String, dynamic> toJson() =>
+    <String, dynamic>{
+      'maxPlayerCount': maxPlayerCount,
+      'drawExtensionStrategy':
+          drawExtensionStrategy.name,
+      'initialCardCount': initialCardCount,
+    };
+
+  factory GameConfig.fromJson(Map<String, dynamic> json) {
+    return GameConfig(
+      drawExtensionStrategy:
+          DrawExtensionStrategy.values
+              .firstWhere((e) => e.toString() == json['drawExtensionStrategy']),
+      initialCardCount: json['initialCardCount'],
+      maxPlayerCount: json['maxPlayerCount'],
+    );
+  }
 }

@@ -29,6 +29,9 @@ dependencies:
   webrtc_sessions:
     path: ../../../base/webrtc_sessions
 
+  uno: 
+    path: ../uno
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
